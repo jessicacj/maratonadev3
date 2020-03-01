@@ -1,0 +1,17 @@
+{
+  "name": "maratonadev-3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jessicacj/maratonadev",
+  "author": "Jéssica Costa",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "nunjucks": "^3.2.0",
+    "pg": "^7.18.1"
+  }
+}
