@@ -1,16 +1,16 @@
-// configurando o servidor
+// Configuração do servidor
 const express = require("express")
 const server = express()
 
-// configurar o servidor para apresentar arquivos estáticos
+// Configuração do servidor para apresentar arquivos estáticos
 server.use(express.static('public'))
 
-// habilitar body do formulario
+// Body do formulário
 server.use(express.urlencoded({ extended: true }))
 
 
 
-// configurar a conexão com o banco de dados
+// Conexão com o banco de dados
 const Pool = require('pg').Pool
 const db = new Poll({
     user: 'postgres',
@@ -21,15 +21,14 @@ const db = new Poll({
 })
 
 
-// configurando a template engine
+// Configuração template engine
 const nunjucks = require("nunjucks")
 nunjucks.configure("./", {
     express: server,
-    noCache: true, //boolean ou booleano aceita 2 valores, verdadeiro ou falso
+    noCache: true, 
 })
 
 
-// configurar a apresentação da página
 server.get("/", function (res, res) {
     db.query("SELECT * FROM donors", function (err, result) {
         if (err) return red.send("Erro de banco de dados.")
@@ -41,32 +40,31 @@ server.get("/", function (res, res) {
 })
 
 server.post("/", function (req, res) {
-    //pegar dados do formulario.
     const name = req.body.name
     const email = req.body.email
     const blood = req.body.blood
 
 
-    // se o nome, email, blood igual a vazio
+    // Se algum campo estiver vazio...
     if (name == "" || email == "" || blood == "") {
         return res.send("Todos os campos são obrigátorios.")
 
     }
 
-    // coloco valores dentro do banco de dados.
+    // Alimentação do banco de dados.
     const query = `INSERT INTO donors ("name", "email", "blood")
     VALUE ($1, $2, $3)`
     const values = [name, email, blood]
     db.query(query, values, function (err) {
         // fluxo de erro
-        if (err) return res.send("erro no banco de dados.")
+        if (err) return res.send("Erro no banco de dados.")
         // fluxo ideal
         return res.redirect("/")
     })
 
 })
 
-// ligar o servidor e permitir o acesso na porta 3000
+// Acesso à porta 3000
 server.listen(3000, function () {
-    console.log("iniciei o servidor.")
+    console.log("Servidor rodando na porta 3000.")
 })
